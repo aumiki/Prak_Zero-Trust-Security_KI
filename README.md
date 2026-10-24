@@ -107,3 +107,15 @@ curl -i localhost:3001/nilai          # 403 (tanpa X-Gateway-Secret)
 Proyek ini tidak memakai paket native, jadi `npm install` tidak memerlukan Python/Visual Studio. Peringatan
 `ExperimentalWarning: SQLite is an experimental feature` saat dijalankan berasal dari modul `node:sqlite` bawaan Node dan
 dapat diabaikan. Bila `npm install` pernah gagal sebelumnya, hapus folder `node_modules` dan `package-lock.json` lama, lalu jalankan lagi.
+
+## Collection Postman
+
+File `postman/sistem-nilai.postman_collection.json` berisi 42 request berurutan (folder 1-8) yang mengikuti alur demo.
+Token disimpan otomatis ke variabel collection, dan setiap request punya pengecekan status yang diharapkan (tercantum di namanya).
+
+1. Postman -> Import -> pilih file tersebut.
+2. Jalankan `npm start` dan `npm run seed` (reset data).
+3. Jalankan request berurutan, atau klik kanan collection -> Run collection.
+4. Folder 4 (jam akses): ubah `config/access-hours.json` menjadi `{"start":"03:00","end":"03:01"}` sebelum menjalankannya,
+   lalu kembalikan ke `07:00`-`21:00` sebelum folder 5. Tanpa perubahan itu, dua request di folder 4 akan menghasilkan 200.
+5. Setelah latihan, jalankan `npm run seed` lagi sebelum merekam video.
