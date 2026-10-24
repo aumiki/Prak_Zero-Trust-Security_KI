@@ -1,0 +1,32 @@
+# Opsi alternatif: gateway + 2 service sebagai container terpisah, berbagi satu database (volume ./data).
+x-common: &common
+  build: .
+  volumes:
+    - ./data:/app/data
+    - ./config:/app/config
+  environment: &env
+    JWT_SECRET: ganti-jwt-secret
+    GATEWAY_SECRET: ganti-gateway-secret
+    SERVICE_CLIENT_SECRET: ganti-service-secret
+    NILAI_URL: http://service-nilai:3001
+    TRANSKRIP_URL: http://service-transkrip:3002
+    GATEWAY_URL: http://gateway:3000
+
+services:
+  seed:
+    <<: *common
+    command: ["node", "db/seed.js"]
+  service-nilai:
+    <<: *common
+    command: ["node", "service-nilai/index.js"]
+    depends_on: { seed: { condition: service_completed_successfully } }
+    # tidak ada "ports": service tidak dapat diakses dari luar jaringan compose
+  service-transkrip:
+    <<: *common
+    command: ["node", "service-transkrip/index.js"]
+    depends_on: { seed: { condition: service_completed_successfully } }
+  gateway:
+    <<: *common
+    command: ["node", "gateway/index.js"]
+    ports: ["3000:3000"]   # hanya gateway yang dipublikasikan
+    depends_on: [service-nilai, service-transkrip]

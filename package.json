@@ -1,0 +1,21 @@
+{
+  "name": "sistem-nilai-zero-trust",
+  "version": "1.0.0",
+  "description": "Praktikum Zero Trust Security - Sistem Nilai (API Gateway PEP + Service Nilai + Service Transkrip)",
+  "private": true,
+  "scripts": {
+    "seed": "node db/seed.js",
+    "start": "node scripts/start-all.js",
+    "gateway": "node gateway/index.js",
+    "nilai": "node service-nilai/index.js",
+    "transkrip": "node service-transkrip/index.js",
+    "audit": "node scripts/show-audit.js",
+    "test": "node test/run-tests.js"
+  },
+  "engines": { "node": ">=22.13" },
+  "dependencies": {
+    "express": "^4.21.0",
+    "http-proxy-middleware": "^3.0.7",
+    "jsonwebtoken": "^9.0.0"
+  }
+}
